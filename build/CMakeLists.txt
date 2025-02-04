@@ -1,0 +1,5 @@
+project(HuffmanTreeCompress)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
+aux_source_directory(../src SRC_SUB)
+add_executable(Compress ${SRC_SUB})
+include_directories(../include)
