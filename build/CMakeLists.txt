@@ -1,5 +1,7 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 project(HuffmanTreeCompress)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../bin)
-aux_source_directory(../src SRC_SUB)
+set(SRC_SUB ../src/Huffman.cpp ../src/demo1.cpp)
+# aux_source_directory(../src SRC_SUB)
 add_executable(Compress ${SRC_SUB})
 include_directories(../include)
