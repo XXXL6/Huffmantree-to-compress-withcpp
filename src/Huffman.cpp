@@ -1,3 +1,13 @@
+/***
+ * @Author: whwhwhw whHit1825@163.com
+ * @Date: 2025-04-03 15:46:17
+ * @LastEditors: whwhwhw whHit1825@163.com
+ * @LastEditTime: 2025-04-08 12:30:55
+ * @FilePath: \Huffmantree-to-compress-withcpp\src\Huffman.cpp
+ * @Description:此文件存放Huffman空间中声明的类与函数的定义
+ * @
+ * @Copyright (c) 2025 by Hit, All Rights Reserved.
+ */
 #include "Huffman.h"
 #include <fstream>
 #include <iostream>
@@ -27,6 +37,7 @@ void Huffman::countToc_wMap(c_wMap &cw, char *fileName)
     return;
 }
 
+// mark 该函数废弃
 void Huffman::readToc_wMap(c_wMap &cw, char *fileName)
 {
     ifstream in;
@@ -42,6 +53,8 @@ void Huffman::readToc_wMap(c_wMap &cw, char *fileName)
         in.read(reinterpret_cast<char *>(&p), sizeof(char));
     }
 }
+
+// mark flag=='w'功能废弃,现使用c_wMap构造函数作为解压缩文件时构造c_wMap的构造器
 c_wMap::c_wMap(char *fileName, char flag)
 {
     if (flag == 'c')
@@ -139,10 +152,8 @@ map<char, string> Huffman::encodeHuffmanTree(const HuffmanTree &Tree)
 void writeMetaData(char *fileName, const map<char, string> &encode,
                    const c_wMap &cw)
 {
-    // ifstream in;
     ofstream out;
     out.open(fileName, ios::binary | ios::out);
-    // in.open(fileName, ios::in);
     //  在压缩后文件中的头部记录下哈希表c-w
     for (int i = 0; i < cw.returnSize(); ++i) {
         out.write(reinterpret_cast<const char *>(&(cw.c_ele(i))), sizeof(char));
@@ -153,6 +164,7 @@ void writeMetaData(char *fileName, const map<char, string> &encode,
     out.write(reinterpret_cast<const char *>(&(ccc)), sizeof(char));
     out.close();
 }
+
 void Huffman::compress(char *inFileName, char *outFileName,
                        const map<char, string> &encode, const c_wMap &cw)
 {
@@ -205,17 +217,7 @@ void Huffman::decompress(char *inFileName, char *outFileName)
     ofstream out;
     in.open(inFileName, ios::binary | ios::in);
     out.open(outFileName, ios::out);
-    // char p;
-    // ushort weight;
     c_wMap cw(in);
-    // in.read(reinterpret_cast<char *>(&p), sizeof(char));
-    // // 读取压缩文件头部的哈希表c-w,找回原文件的字符及对应频数
-    // while (p != '\a') {
-    //     c.push_back(p);
-    //     in.read(reinterpret_cast<char *>(&weight), sizeof(ushort));
-    //     w.push_back(weight);
-    //     in.read(reinterpret_cast<char *>(&p), sizeof(char));
-    // }
     HuffmanTree a(
         cw); // 利用c-w表信息建立相同的哈夫曼树，以建立相同的哈夫曼编码表，实现编码还原
     unsigned char num = '\0';
